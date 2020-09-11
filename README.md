@@ -4,6 +4,7 @@ A Flask Application that captures basic credit card details over the phone and i
 
 ## Prerequisites
 
+- **Make sure that you use a PCI Enabled project so that DTMF and logs are not collected in Twilio's systems.** Turn it on under [Programmable Voice Settings](https://www.twilio.com/console/voice/settings)
 - Setup a [Worldpay Account](https://online.worldpay.com/signup)
 - Go to [Settings -> Keys](https://online.worldpay.com/settings/keys) and make a note of the Service Key
 - Optional: Setup and Configure the **gcloud** command line tool so that you can deploy to [Google AppEngine](https://cloud.google.com/sdk/gcloud/reference/app)
@@ -23,7 +24,6 @@ python configure-env.py
 ```
 
 Install the [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart)
-Make sure that you use a PCI Enabled project so that DTMF and logs are not collected in Twilio's systems. Turn it on under [Programmable Voice Settings](https://www.twilio.com/console/voice/settings)
 
 Optional: Purchase a Twilio number (or use an existing one)
 
@@ -71,7 +71,7 @@ Point your Incoming Webhook to your AppEngine instance.
 twilio phone-numbers:update +442038236401 --voice-url=https://YOUR-APPENGINE-INSTANCE.appspot.com/make_payment
 ```
 
-Alternatively, you would probably want to identify the caller and work out how much they had to pay. This might be something you use Twilio Studio for and then use a TwiML Redirect widget to pass the call to this payment flow.
+Alternatively, you would probably want to identify the caller and work out how much they had to pay. This might be something you use Twilio Studio for and then use a TwiML Redirect widget to pass the call to this payment flow. You can pass them in as query params `caller_name` and `amount`.
 
 ## Capture Payment Details at the end of the Interaction
 
