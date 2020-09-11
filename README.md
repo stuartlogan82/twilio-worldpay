@@ -1,6 +1,6 @@
 # Twilio Worldpay Integration
 
-A Flask Application that captures basic credit card details and interacts with WorldPay APIs to process a payment. You can optionally pass in a `caller_name` and `amount` as query parameters for dynamic payment amounts.
+A Flask Application that captures basic credit card details over the phone and interacts with WorldPay APIs to process a payment. You can optionally pass in a `caller_name` and `amount` as query parameters for dynamic payment amounts.
 
 ## Prerequisites
 
@@ -76,3 +76,7 @@ Alternatively, you would probably want to identify the caller and work out how m
 ## Capture Payment Details at the end of the Interaction
 
 If you set `END_OF_INTERACTION_URL` in your `.env` file to a Webhook that you host, you can handle events. You will receive the response from WorldPay with confirmation of the transaction which you could use to update your billing system or CRM.
+
+## Caveats
+
+There is no error handling currently for invalid inputs or failed payments.
