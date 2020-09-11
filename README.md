@@ -73,6 +73,8 @@ twilio phone-numbers:update +442038236401 --voice-url=https://YOUR-APPENGINE-INS
 
 Alternatively, you would probably want to identify the caller and work out how much they had to pay. This might be something you use Twilio Studio for and then use a TwiML Redirect widget to pass the call to this payment flow. You can pass them in as query params `caller_name` and `amount`.
 
+![Studio Flow](StudioFlow.png)
+
 ## Capture Payment Details at the end of the Interaction
 
 If you set `END_OF_INTERACTION_URL` in your `.env` file to a Webhook that you host, you can handle events. You will receive the response from WorldPay with confirmation of the transaction which you could use to update your billing system or CRM.
