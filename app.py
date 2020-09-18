@@ -37,6 +37,22 @@ app.secret_key = SECRET_KEY
 
 
 def get_or_append_details(option, prompt):
+    """
+    Main function used to gather various credit card details from the caller 
+    and save them as session variables.
+
+    Parameters
+    ----------
+    option: string
+        The credit card detail you want to capture (card number, expiry, cvv)
+    prompt: string
+        The caller will be played this message
+
+    Returns
+    -------
+    TwiML to drive the Twilio Gather operations
+    """
+
     digits = request.form.get('Digits')
     response = VoiceResponse()
     if digits:
@@ -53,6 +69,15 @@ def get_or_append_details(option, prompt):
 
 @app.route('/make_payment', methods=['GET', 'POST'])
 def make_payment():
+    """
+    Main route for the application.
+
+    Checks to see if required card details have been gathered from the caller
+    and redirects to appropriate routes to get missing info. 
+    If all information has been gathered then it redirects to processing the
+    payment.
+    """
+
     response = VoiceResponse()
     if 'caller_name' not in session:
         session['caller_name'] = request.args.get(
@@ -75,6 +100,15 @@ def make_payment():
 
 @app.route('/process_payment', methods=['GET', 'POST'])
 def process_payment():
+    """
+    Makes the payment.
+
+    Responsible for making the request to WorldPay with the gathered
+    session variables and returns to a Studio flow if initiated from there.
+    Currently assumes that all information gathered is correct and
+    payment will be successful
+    """
+
     url = 'https://api.worldpay.com/v1/orders'
     headers = {'Authorization': environ.get('WORLDPAY_API_KEY'),
                'Content-type': 'application/json'}
@@ -104,14 +138,20 @@ def process_payment():
 
 @app.route('/get_card_number', methods=['GET', 'POST'])
 def get_card_number():
+    """Call function to get long card number"""
+
     return get_or_append_details('card_number', "Please enter your credit card number")
 
 
 @app.route('/get_expiry', methods=['GET', 'POST'])
 def get_expiry():
+    """Call function to get expiry month and year"""
+
     return get_or_append_details('expiry', "Please enter your expiry date, two digits for the month and two digits for the year")
 
 
 @app.route('/get_cvv', methods=['GET', 'POST'])
 def get_cvv():
+    """Call function to get 3 or 4 digit cvv"""
+
     return get_or_append_details('cvv', 'Please enter your CVV. Typically this is the 3 digit number on the back of your card')
