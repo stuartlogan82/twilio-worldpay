@@ -38,6 +38,8 @@ app.secret_key = SECRET_KEY
 
 def get_or_append_details(option, prompt):
     """
+    Gets the credit card details.
+
     Main function used to gather various credit card details from the caller 
     and save them as session variables.
 
